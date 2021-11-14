@@ -1,0 +1,28 @@
+﻿global using System.Timers;
+global using CommonBasicLibraries.AdvancedGeneralFunctionsAndProcesses.BasicExtensions;
+global using CommonBasicLibraries.BasicUIProcesses;
+global using MediaHelpers.CoreLibrary.BasicInterfaces;
+global using MediaHelpers.CoreLibrary.Music.DB.Models;
+global using MediaHelpers.CoreLibrary.Music.PlaySongsClasses;
+global using CommonBasicLibraries.BasicDataSettingsAndProcesses;
+global using CommonBasicLibraries.BasicDateTimeProcesses;
+global using CommonBasicLibraries.CollectionClasses;
+global using MediaHelpers.CoreLibrary.Music.Helpers;
+global using MediaHelpers.CoreLibrary.Music.TemporaryModels;
+global using MediaHelpers.BlazorCoreLibrary.Music.Components.Playlists;
+global using MediaHelpers.BlazorCoreLibrary.Music.ViewModels;
+global using Microsoft.AspNetCore.Components;
+global using BasicBlazorLibrary.Components.AutoCompleteHelpers;
+global using BasicBlazorLibrary.Components.Layouts;
+global using cs = CommonBasicLibraries.BasicDataSettingsAndProcesses.SColorString;
+global using BasicBlazorLibrary.Components.InputNavigations;
+global using MediaHelpers.CoreLibrary.Video.DatabaseInterfaces.TVShows;
+global using MediaHelpers.CoreLibrary.Video.DatabaseInterfaces.Movies;
+global using MediaHelpers.CoreLibrary.Video.TelevisionMiscClasses;
+global using MediaHelpers.CoreLibrary.Video.Logic;
+global using MediaHelpers.CoreLibrary.Video.RemoteControls;
+global using MediaHelpers.BlazorCoreLibrary.Video.Helpers;
+global using MediaHelpers.CoreLibrary.Video.MiscClasses;
+global using MediaHelpers.BlazorCoreLibrary.Video.ViewModels;
+//least common
+global using BasicBlazorLibrary.Components.BaseClasses;

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaHelpers.BlazorCoreLibrary", "MediaHelpers.BlazorCoreLibrary.csproj", "{AFC9DC5A-ACC2-40C4-AA9C-8706A845F6C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFC9DC5A-ACC2-40C4-AA9C-8706A845F6C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC9DC5A-ACC2-40C4-AA9C-8706A845F6C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC9DC5A-ACC2-40C4-AA9C-8706A845F6C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC9DC5A-ACC2-40C4-AA9C-8706A845F6C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF7AAB45-C677-481A-A9F2-82F750580F59}
+	EndGlobalSection
+EndGlobal
