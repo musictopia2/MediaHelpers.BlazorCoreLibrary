@@ -30,7 +30,7 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         {
             throw new CustomBasicException("There was no episode chosen.  Rethink");
         }
-        _wasHoliday = containerClass.EpisodeChosen.Holiday != EnumTelevisionHoliday.None;
+        _wasHoliday = _holidayViewModel.WasHoliday;
         _hostService.NewClient = SendOtherDataAsync;
         _hostService.SkipEpisodeForever = async () =>
         {
