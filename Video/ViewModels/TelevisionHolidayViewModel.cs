@@ -19,7 +19,8 @@ public class TelevisionHolidayViewModel
         var episodeList = _holidayList.GetConditionalItems(Items => Items.ShowTable.LengthType == lengthType);
         if (episodeList.Count == 0)
         {
-            _error.ShowSystemError("No episodes left.  Should have made the option invisible");
+            //can't show error here because it could be while skipping episode.
+            //_error.ShowSystemError("No episodes left.  Should have made the option invisible");
             return null;
         }
         IEpisodeTable episode = episodeList.GetRandomItem();

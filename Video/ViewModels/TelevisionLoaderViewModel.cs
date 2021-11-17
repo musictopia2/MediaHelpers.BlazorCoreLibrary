@@ -2,13 +2,15 @@
 public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
 {
     private readonly ITelevisionLoaderLogic _loadLogiclogic;
-    private readonly TelevisionContainerClass _containerClass;
+    private readonly TelevisionHolidayViewModel _holidayViewModel;
     private readonly ITelevisionRemoteControlHostService _hostService;
     private readonly ITelevisionListLogic _listLogic;
     private readonly ISystemError _error;
     private readonly IToast _toast;
+    private readonly bool _wasHoliday;
     public TelevisionLoaderViewModel(IVideoPlayer player,
         ITelevisionLoaderLogic loadLogic,
+        TelevisionHolidayViewModel holidayViewModel,
         TelevisionContainerClass containerClass,
         ITelevisionRemoteControlHostService hostService,
         ITelevisionListLogic listLogic,
@@ -19,7 +21,7 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         ) : base(player, error, exit)
     {
         _loadLogiclogic = loadLogic;
-        _containerClass = containerClass;
+        _holidayViewModel = holidayViewModel;
         _hostService = hostService;
         _listLogic = listLogic;
         _error = error;
@@ -28,6 +30,7 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         {
             throw new CustomBasicException("There was no episode chosen.  Rethink");
         }
+        _wasHoliday = containerClass.EpisodeChosen.Holiday != EnumTelevisionHoliday.None;
         _hostService.NewClient = SendOtherDataAsync;
         _hostService.SkipEpisodeForever = async () =>
         {
@@ -73,10 +76,10 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         Player.StopPlay();
         return tempItem;
     }
-    private async Task StartNextEpisodeAsync(IEpisodeTable tempItem)
+    private async Task StartNextEpisodeAsync(IEpisodeTable tempItem) //try this way.
     {
         IShowTable show = tempItem.ShowTable;
-        SelectedItem = await _listLogic.GetNextEpisodeAsync(show);
+        SelectedItem = _wasHoliday ? await _listLogic.GetNextEpisodeAsync(show) : _holidayViewModel.GetHolidayEpisode(show.LengthType);
         if (SelectedItem is null)
         {
             return;
