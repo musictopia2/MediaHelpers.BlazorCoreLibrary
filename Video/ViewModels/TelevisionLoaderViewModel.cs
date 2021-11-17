@@ -7,13 +7,16 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
     private readonly ITelevisionListLogic _listLogic;
     private readonly ISystemError _error;
     private readonly IToast _toast;
+    private readonly IExit _exit;
     private readonly bool _wasHoliday;
     public TelevisionLoaderViewModel(IVideoPlayer player,
         ITelevisionLoaderLogic loadLogic,
         TelevisionHolidayViewModel holidayViewModel,
+        IDateOnlyPicker picker,
         TelevisionContainerClass containerClass,
         ITelevisionRemoteControlHostService hostService,
         ITelevisionListLogic listLogic,
+        ITelevisionShellViewModel shellViewModel,
         ISystemError error,
         IToast toast,
         IExit exit
@@ -22,15 +25,24 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
     {
         _loadLogiclogic = loadLogic;
         _holidayViewModel = holidayViewModel;
+        if (shellViewModel.DidReset)
+        {
+            _wasHoliday = false;
+        }
+        else
+        {
+            var temps = picker.GetCurrentDate.WhichHoliday();
+            _wasHoliday = temps is not EnumTelevisionHoliday.None; //its dependent on date period now.
+        }
         _hostService = hostService;
         _listLogic = listLogic;
         _error = error;
         _toast = toast;
+        _exit = exit;
         if (containerClass.EpisodeChosen is null)
         {
             throw new CustomBasicException("There was no episode chosen.  Rethink");
         }
-        _wasHoliday = _holidayViewModel.WasHoliday;
         _hostService.NewClient = SendOtherDataAsync;
         _hostService.SkipEpisodeForever = async () =>
         {
@@ -57,6 +69,18 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
     {
         var tempItem = StopEpisode();
         await _loadLogiclogic.ForeverSkipEpisodeAsync(tempItem);
+        if (_wasHoliday && _holidayViewModel.ManuallyChoseHoliday == false)
+        {
+            _exit.ExitApp();
+            //could eventually decide to have the choices on the remote control.
+            //this would mean that if you open and its holiday, then if you want to choose holiday, then will do it.  otherwise, load list
+            return; //has to exit the app at this point.  because its too complicated on what it should do next.
+            //_holidayViewModel.RemoveHolidayEpisode(tempItem);
+        }
+        if (_wasHoliday)
+        {
+            _holidayViewModel.RemoveHolidayEpisode(tempItem);
+        }
         await StartNextEpisodeAsync(tempItem);
     }
     private IEpisodeTable StopEpisode()
@@ -76,12 +100,17 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         Player.StopPlay();
         return tempItem;
     }
-    private async Task StartNextEpisodeAsync(IEpisodeTable tempItem) //try this way.
+    private async Task StartNextEpisodeAsync(IEpisodeTable tempItem)
     {
         IShowTable show = tempItem.ShowTable;
-        SelectedItem = _wasHoliday ? _holidayViewModel.GetHolidayEpisode(show.LengthType) : await _listLogic.GetNextEpisodeAsync(show);
+        if (_wasHoliday && _holidayViewModel.ManuallyChoseHoliday == false)
+        {
+            throw new CustomBasicException("Holidays for starting next episode should have exited the app because too many possibilities");
+        }
+        SelectedItem = _holidayViewModel.ManuallyChoseHoliday ? _holidayViewModel.GetHolidayEpisode(show.LengthType) : await _listLogic.GetNextEpisodeAsync(show);
         if (SelectedItem is null)
         {
+            _exit.ExitApp(); //if no episode was chosen, just edit.
             return;
         }
         BeforeInitEpisode();

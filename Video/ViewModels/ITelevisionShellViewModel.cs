@@ -6,4 +6,5 @@ public interface ITelevisionShellViewModel
     bool IsLoaded { get; }
     Task InitAsync();
     void ResetHoliday();
+    bool DidReset { get; }
 }
