@@ -79,7 +79,7 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
     private async Task StartNextEpisodeAsync(IEpisodeTable tempItem) //try this way.
     {
         IShowTable show = tempItem.ShowTable;
-        SelectedItem = _wasHoliday ? await _listLogic.GetNextEpisodeAsync(show) : _holidayViewModel.GetHolidayEpisode(show.LengthType);
+        SelectedItem = _wasHoliday ? _holidayViewModel.GetHolidayEpisode(show.LengthType) : await _listLogic.GetNextEpisodeAsync(show);
         if (SelectedItem is null)
         {
             return;
