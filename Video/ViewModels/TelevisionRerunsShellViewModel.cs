@@ -19,9 +19,12 @@ public class TelevisionRerunsShellViewModel : ITelevisionShellViewModel
         if (PreviousEpisode is null)
         {
             CurrentHoliday = _datePicker.GetCurrentDate.WhichHoliday();
+            //if there are no episodes then needs to somehow show the normal list.
+
         }
         IsLoaded = true;
     }
+    //i can reset holiday via programming if needed as well.
     public void ResetHoliday()
     {
         CurrentHoliday = EnumTelevisionHoliday.None;

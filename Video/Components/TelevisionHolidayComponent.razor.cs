@@ -24,5 +24,9 @@ public partial class TelevisionHolidayComponent
     protected override async Task OnInitializedAsync()
     {
         await DataContext!.InitAsync(Holiday);
+        if (DataContext.HolidayFullVisible == false && DataContext.HolidayHalfVisible == false)
+        {
+            await OnBackToMain.InvokeAsync();
+        }
     }
 }

@@ -8,6 +8,7 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
     private readonly ISystemError _error;
     private readonly IToast _toast;
     private readonly IExit _exit;
+    private readonly IMessageBox _message;
     private readonly bool _wasHoliday;
     public TelevisionLoaderViewModel(IVideoPlayer player,
         ITelevisionLoaderLogic loadLogic,
@@ -19,7 +20,8 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         ITelevisionShellViewModel shellViewModel,
         ISystemError error,
         IToast toast,
-        IExit exit
+        IExit exit,
+        IMessageBox message
 
         ) : base(player, error, exit)
     {
@@ -39,6 +41,7 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         _error = error;
         _toast = toast;
         _exit = exit;
+        _message = message;
         if (containerClass.EpisodeChosen is null)
         {
             throw new CustomBasicException("There was no episode chosen.  Rethink");
@@ -105,18 +108,28 @@ public class TelevisionLoaderViewModel : VideoMainLoaderViewModel<IEpisodeTable>
         IShowTable show = tempItem.ShowTable;
         if (_wasHoliday && _holidayViewModel.ManuallyChoseHoliday == false)
         {
-            throw new CustomBasicException("Holidays for starting next episode should have exited the app because too many possibilities");
+            _error.ShowSystemError("Holidays for starting next episode should have exited the app because too many possibilities");
+            _exit.ExitApp(); //if this is the case, not sure what we can do then.
+            return;
+            //throw new CustomBasicException("Holidays for starting next episode should have exited the app because too many possibilities");
         }
         SelectedItem = _holidayViewModel.ManuallyChoseHoliday ? _holidayViewModel.GetHolidayEpisode(show.LengthType) : await _listLogic.GetNextEpisodeAsync(show);
         if (SelectedItem is null)
         {
-            _exit.ExitApp(); //if no episode was chosen, just edit.
+            _error.ShowSystemError("Selected Item Was Null");
             return;
         }
-        BeforeInitEpisode();
-        await _loadLogiclogic.AddToHistoryAsync(SelectedItem!); 
-        await ProcessSkipsAsync();
-        await ShowVideoLoadedAsync();
+        try
+        {
+            await _loadLogiclogic.ReloadAppAsync(SelectedItem!);
+        }
+        catch (Exception ex)
+        {
+            _error.ShowSystemError(ex.Message);
+        }
+        //await _loadLogiclogic.AddToHistoryAsync(SelectedItem!); 
+        //await ProcessSkipsAsync();
+        //await ShowVideoLoadedAsync();
     }
     public override Task SaveProgressAsync()
     {

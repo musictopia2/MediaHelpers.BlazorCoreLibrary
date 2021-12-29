@@ -74,6 +74,10 @@ public class TelevisionHolidayViewModel
                 HolidayHalfText = $"{p} For {holiday}";
                 HolidayHalfVisible = true;
             }
+            if (HolidayFullVisible == false && HolidayHalfVisible == false)
+            {
+                return; //can't show as loaded.
+            }
             IsLoaded = true;
         }
         catch (Exception ex)
