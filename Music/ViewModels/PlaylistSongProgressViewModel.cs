@@ -40,9 +40,12 @@ public class PlaylistSongProgressViewModel : BasicSongProgressViewModel
         SongsLeft = _player.SongsLeft;
         UpTo = _player.UpTo;
         StateChanged?.Invoke(); //hopefully this works (?)
-        int weight = _remoteData.GetWeight(CurrentSong!);
-        SongModel model = new(CurrentSong!.SongName, CurrentSong.ArtistName, weight, ProgressText);
-        await _hostService.SendProgressAsync(model);
+        if (CurrentSong is not null)
+        {
+            int weight = _remoteData.GetWeight(CurrentSong);
+            SongModel model = new(CurrentSong.SongName, CurrentSong.ArtistName, weight, ProgressText);
+            await _hostService.SendProgressAsync(model);
+        }
     }
     public int UpTo { get; set; }
     public int SongsLeft { get; set; }
