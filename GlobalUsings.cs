@@ -24,5 +24,6 @@ global using MediaHelpers.CoreLibrary.Video.RemoteControls;
 global using MediaHelpers.BlazorCoreLibrary.Video.Helpers;
 global using MediaHelpers.CoreLibrary.Video.MiscClasses;
 global using MediaHelpers.BlazorCoreLibrary.Video.ViewModels;
+global using MediaHelpers.CoreLibrary.Music.RemoteControls;
 //least common
 global using BasicBlazorLibrary.Components.BaseClasses;

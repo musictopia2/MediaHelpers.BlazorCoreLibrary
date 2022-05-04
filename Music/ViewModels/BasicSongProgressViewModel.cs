@@ -122,11 +122,13 @@ public class BasicSongProgressViewModel : IPlayPauseClass, INextSongClass
         Start();
         StateChanged?.Invoke();
     }
-    public void Start()
+    public async void Start()
     {
         _processing = true;
+        await InitPossibleRemoteControl();
         RunTask();
     }
+    protected virtual Task InitPossibleRemoteControl() { return Task.CompletedTask; }
     private async void LastUpdateAsync()
     {
         await _player.SongInProgressAsync(ResumeAt);

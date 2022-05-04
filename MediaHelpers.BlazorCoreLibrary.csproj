@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BasicBlazorLibrary" Version="4.0.1" />
-    <PackageReference Include="CommonBasicLibraries" Version="7.0.1" />
-    <PackageReference Include="MediaHelpers.CoreLibrary" Version="3.0.1" />
+    <PackageReference Include="BasicBlazorLibrary" Version="4.0.2" />
+    <PackageReference Include="CommonBasicLibraries" Version="7.0.4" />
+    <PackageReference Include="MediaHelpers.CoreLibrary" Version="3.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.2" />
   </ItemGroup>
 	
