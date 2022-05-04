@@ -20,6 +20,7 @@ public class PlaylistSongProgressViewModel : BasicSongProgressViewModel
         _hostService.DeleteSong = async () =>
         {
             await remoteData.DeleteSongAsync(CurrentSong!);
+            await _player.NextSongAsync(); //go to next song automatically as well.
         };
         _hostService.IncreaseWeight = async () =>
         {
